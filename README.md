@@ -1,2 +1,3 @@
-# Congressional Stock Trades
-API to retrieve stock market trade data by US Congressional members
+# Congressional Floor Actions
+
+API to retrieve floor action headers from the US Senate

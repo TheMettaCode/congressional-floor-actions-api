@@ -3,166 +3,118 @@ var axios = require('axios');
 var cheerio = require('cheerio');
 var express = require('express');
 
-// const app = express();
+const app = express();
 const router = express.Router();
 
-async function getData(url) {
-  try {
-    // let res = await axios({
-    //   url: url,
-    //   method: 'get',
-    //   timeout: 8000,
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   }
-    // });
-    let res = await axios.get(url);
-    if (res.status == 200) {
-      // test for status you want, etc
-      console.log("Status: " + res.status);
-    }
-    // Don't forget to return something   
-    return res.data;
-  }
-  catch (err) {
-    console.error(err);
-  }
-}
-
 router.get('/senate', (req, res) => {
-  const senateTradesList = [];
-  // const senateSource = {
-  //   name: 'Senate Stock Disclosures',
-  //   address: 'https://sec.report/Senate-Stock-Disclosures',
-  //   base: 'https://sec.report',
-  //   slug: 'senate',
-  // };
+  const actionsList = [];
+  const floorActionsMap = {};
+  const today = new Date();
 
-  const senateSource = {
-    name: 'Senate Stock Disclosures',
-    address: 'https://senate-stock-watcher-data.s3-us-west-2.amazonaws.com/aggregate/all_transactions.json',
+  const source = {
+    name: 'Senate Floor Actions',
+    address: `https://www.senate.gov/legislative/LIS/floor_activity/floor_activity.htm`,
     base: '',
     slug: 'senate',
   };
 
-  console.log(senateSource);
-  getData(senateSource.address)
-    .then(responseData => {
-      // const html = responseData;
-      // console.log("::" + html);
-      // const $ = cheerio.load(html);
+  console.log(source);
+  axios.get(source.address)
+    .then(response => {
+      const html = response.data;
+      const $ = cheerio.load(html);
+      const actionsField = $('body main').find('div').first();
+      const actions = actionsField.find('div');
 
-      const transactions = responseData;
-      transactions.sort((a, b) => new Date(b['transaction_date']) - new Date(a['transaction_date']));
-      const originalSenateTradesList = transactions.slice(0, 200);
-      const filteredList = originalSenateTradesList.filter((value) => new Date(value['transaction_date']) <= new Date());
-      const senateMap = { "api": "Congressional Stock Trades by MettaCode Developers", "chamber": "senate", "retrieved": Date() };
 
-      for (var item of filteredList) {
-        const thisTradeItem = {};
-        thisTradeItem["filed-date"] = item['disclosure_date'].split('/')[2] + '-' + item['disclosure_date'].split('/')[0] + '-' + item['disclosure_date'].split('/')[1];
-        thisTradeItem["transaction-date"] = item['transaction_date'].split('/')[2] + '-' + item['transaction_date'].split('/')[0] + '-' + item['transaction_date'].split('/')[1];
-        thisTradeItem["ticker"] = item['ticker'] ?? '';
-        thisTradeItem["company"] = item['asset_description'];
-        thisTradeItem["company-url"] = '';
-        thisTradeItem["member"] = item['senator'];
-        thisTradeItem["owner"] = item['owner'] ?? '';
-        thisTradeItem["filings"] = '';
-        thisTradeItem["disclosure-id"] = '';
-        thisTradeItem["disclosure-link"] = item['ptr_link'] ?? '';
-        thisTradeItem["trade-type"] = item['type'];
-        thisTradeItem["trade-range"] = item['amount'];
-        // thisTradeItem["data-retrieved"] = Date().toString();
-        // thisTradeItem["data-retrieved-by"] = "MettaCode Developers";
+      let count = 1;
+      actions.each((index, action) => {
 
-        senateTradesList.push(thisTradeItem);
-      };
+        // const thisActionItem = {};
 
-      // const transactions = $('tbody').find('tr');
+        const header = $(action).find('h2').first().text().trim();
+        const actionItem = $(action).first().text().replace(header, '').trim();
 
-      // transactions.each((index, tAction) => {
+        // console.log(thisActionItem);
+        if (header.length != 0) {
+          actionsList.push({ count, header, actionItem });
+          count += 1;
+        }
 
-      //   const thisTradeItem = {};
 
-      //   if (index % 2 == 0) {
-
-      //     thisTradeItem["filed-date"] = $(tAction).find('td').first().find('div').first().text();
-      //     thisTradeItem["transaction-date"] = $(tAction).find('td').first().find('div').last().text();
-      //     thisTradeItem["ticker"] = $(tAction).find('a:nth-child(2)').text();
-      //     thisTradeItem["company"] = $(tAction).find('a').first().text().trim();
-      //     thisTradeItem["company-url"] = ''; // senateSource.base + $(tAction).find('a').first().attr('href');
-      //     thisTradeItem["member"] = 'Sen. ' + $(tAction).find('.ov').find('a').text().trim();
-      //     thisTradeItem["owner"] = $(tAction).next().find('div').last().text();
-      //     thisTradeItem["filings"] = ''; // senateSource.base + $(tAction).find('.ov').find('a').attr('href');
-      //     thisTradeItem["disclosure-id"] = $(tAction).next().find('a').first().text();
-      //     thisTradeItem["disclosure-link"] = senateSource.base + $(tAction).next().find('a').first().attr('href');
-      //     thisTradeItem["trade-type"] = $(tAction).next().find('div').first().text();
-      //     thisTradeItem["trade-range"] = $(tAction).next().find('td:nth-child(2)').first().text();
-      //     // thisTradeItem["data-retrieved"] = Date().toString();
-      //     // thisTradeItem["data-retrieved-by"] = "MettaCode Developers";
-
-      //     // console.log(thisTradeItem);
-      //     senateTradesList.push(thisTradeItem);
-      //   }
-
-      // });
-      // console.log(senateTradesList);
-      senateMap["retreived-trade-count"] = senateTradesList.length;
-      senateMap["senate-trades"] = senateTradesList;
-      res.json(senateMap);
+      });
+      // console.log(senateActionsList);
+      floorActionsMap["retrieved-date"] = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+      floorActionsMap["actions-date"] = actionsField.find('h2').first().text();
+      floorActionsMap["actions-title"] = actionsField.find('section h1').first().text();
+      floorActionsMap["actions-count"] = actionsList.length;
+      floorActionsMap["actions-list"] = actionsList;
+      res.json(floorActionsMap);
     });
 });
 
 router.get('/house', (req, res) => {
-  const houseTradesList = [];
-  const houseSource =
-  {
-    name: 'House Stock Disclosures',
-    address: 'https://house-stock-watcher-data.s3-us-west-2.amazonaws.com/data/all_transactions.json',
+  const actionsList = [];
+  const floorActionsMap = {};
+  const today = new Date();
+
+  const source = {
+    name: 'House Floor Actions',
+    address: `https://clerk.house.gov/Home/Feed`,
     base: '',
     slug: 'house',
   };
-  console.log(houseSource);
 
-  getData(houseSource.address)
-    .then((responseData) => {
-      const transactions = responseData;
-      transactions.sort((a, b) => new Date(b['transaction_date']) - new Date(a['transaction_date']));
-      const originalHouseTradesList = transactions.slice(0, 200);
-      const filteredList = originalHouseTradesList.filter((value) => new Date(value['transaction_date']) <= new Date());
+  console.log(source);
+  axios.get(source.address)
+    .then(response => {
+      console.log(response.data);
+      const html = response.data;
+      const $ = cheerio.load(html);
+      const actionsField = $('channel');
+      const actions = actionsField.find('item');
 
-      const houseMap = { "api": "Congressional Stock Trades by MettaCode Developers", "chamber": "house", "retrieved": Date() };
 
-      for (var item of filteredList) {
-        const thisTradeItem = {};
-        thisTradeItem["filed-date"] = item['disclosure_date'].split('/')[2] + '-' + item['disclosure_date'].split('/')[0] + '-' + item['disclosure_date'].split('/')[1];
-        thisTradeItem["transaction-date"] = item['transaction_date'];
-        thisTradeItem["ticker"] = item['ticker'] ?? '';
-        thisTradeItem["company"] = item['asset_description'];
-        thisTradeItem["company-url"] = '';
-        thisTradeItem["member"] = item['representative'];
-        thisTradeItem["owner"] = item['owner'] ?? '';
-        thisTradeItem["filings"] = '';
-        thisTradeItem["disclosure-id"] = '';
-        thisTradeItem["disclosure-link"] = item['ptr_link'] ?? '';
-        thisTradeItem["trade-type"] = item['type'];
-        thisTradeItem["trade-range"] = item['amount'];
-        // thisTradeItem["data-retrieved"] = Date().toString();
-        // thisTradeItem["data-retrieved-by"] = "MettaCode Developers";
+      let count = 1;
+      actions.each((index, action) => {
 
-        houseTradesList.push(thisTradeItem);
-      };
+        // const thisActionItem = {};
 
-      // console.log(houseTradesList);
-      houseMap["retreived-trade-count"] = houseTradesList.length;
-      houseMap["house-trades"] = houseTradesList;
-      res.json(houseMap);
+        const fullDescription = $(action).find('description').text();
+
+        var header = '';
+        var actionItem = '';
+
+        if (fullDescription.includes(' - ')) {
+          header = fullDescription.split(' - ')[0].trim();
+          actionItem = fullDescription.split(' - ')[1];
+        } else {
+          header = "--";
+          actionItem = fullDescription;
+        }
+
+        // console.log(thisActionItem);
+        if (header.length > 0) {
+          actionsList.push({ count, header, actionItem });
+          count += 1;
+        }
+
+
+      });
+      // console.log(senateActionsList);
+      floorActionsMap["retrieved-date"] = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+      floorActionsMap["actions-date"] = actionsField.find('pubDate').first().text();
+      floorActionsMap["actions-title"] = actionsField.find('title').first().text();
+      floorActionsMap["actions-count"] = actionsList.length;
+      floorActionsMap["actions-list"] = actionsList;
+      res.json(floorActionsMap);
     });
 });
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'US Congress Stock Trade API' });
+  res.render('index', { title: 'US Congress Floor Actions API' });
+
 });
 
 
