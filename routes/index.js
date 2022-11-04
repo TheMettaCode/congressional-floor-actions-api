@@ -37,7 +37,7 @@ router.get('/senate', (req, res) => {
 
         // console.log(thisActionItem);
         if (header.length != 0) {
-          actionsList.push({ count, header, actionItem });
+          actionsList.push({ "index": count, header, actionItem });
           count += 1;
         }
 
@@ -95,7 +95,7 @@ router.get('/house', (req, res) => {
 
         // console.log(thisActionItem);
         if (header.length > 0) {
-          actionsList.push({ count, header, actionItem });
+          actionsList.push({ "index": count, header, actionItem });
           count += 1;
         }
 
