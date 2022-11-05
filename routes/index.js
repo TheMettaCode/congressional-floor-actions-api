@@ -26,9 +26,8 @@ router.get('/senate', (req, res) => {
       const actionsField = $('body main').find('div').first();
       const actions = actionsField.find('div');
 
-
       let count = 1;
-      actions.each((index, action) => {
+      $(actions).find('div').each((index, action) => {
 
         // const thisActionItem = {};
 
