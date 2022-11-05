@@ -34,10 +34,11 @@ router.get('/senate', (req, res) => {
 
         const header = $(action).find('h2').first().text().trim();
         const actionItem = $(action).first().text().replace(header, '').trim();
+        const actionTimeStamp = '--';
 
         // console.log(thisActionItem);
         if (header.length != 0) {
-          actionsList.push({ "index": count, header, actionItem });
+          actionsList.push({ "index": count, header, actionItem, actionTimeStamp });
           count += 1;
         }
 
@@ -81,6 +82,7 @@ router.get('/house', (req, res) => {
         // const thisActionItem = {};
 
         const fullDescription = $(action).find('description').text();
+        const actionTimeStamp = $(action).find('pubDate').text();
 
         var header = '';
         var actionItem = '';
@@ -95,7 +97,7 @@ router.get('/house', (req, res) => {
 
         // console.log(thisActionItem);
         if (header.length > 0) {
-          actionsList.push({ "index": count, header, actionItem });
+          actionsList.push({ "index": count, header, actionItem, actionTimeStamp });
           count += 1;
         }
 
