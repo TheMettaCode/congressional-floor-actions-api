@@ -1,0 +1,28 @@
+name: "Congressional Floor Actions"
+author: "MettaCode Developers"
+description: "Retrieve latest floor actions from US Congress and create JSON file"
+
+on:
+  push:
+    branches: [master]
+# inputs:
+#   who-to-greet:  # id of input
+#     description: 'Who to greet'
+#     required: true
+#     default: 'World'
+outputs:
+  successfully:
+    description: "Feedback message of success"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: create-floor-actions-json
+        uses: jsdaniell/create-json@v1.2.1
+        with:
+          name: "floor-actions.json"
+          json: # TBD
+runs:
+  using: "node16"
+  main: "index.js"
