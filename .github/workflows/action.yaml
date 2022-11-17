@@ -30,7 +30,7 @@ jobs:
       - name: Commit File
         run: |
           git config --global user.email "mettacode@gmail.com"
-          git config --global user.name "MettaCode"
+          git config --global user.name "mettacode"
           git add -A floor-actions.json && git status
           git commit -am "Deployed floor-actions.json file"
           git push
