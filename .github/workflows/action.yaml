@@ -19,11 +19,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: jsdaniell/create-json@v1.2.1
+      - name: create-floor-actions-json
+        uses: jsdaniell/create-json@v1.2.1
         with:
           name: "floor-actions.json"
           json: '{"title": "my json"}'
-      - name: create-floor-actions-json
 runs:
   using: "node16"
   main: "index.js"
