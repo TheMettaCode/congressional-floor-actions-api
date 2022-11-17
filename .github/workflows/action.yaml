@@ -26,9 +26,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: run-javascript
-        uses: ./
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        # uses: ./
+        # with:
+        #   token: ${{ secrets.GITHUB_TOKEN }}
       - run: node --version
       - run: npm run start
       - name: create-floor-actions-json
