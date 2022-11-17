@@ -14,6 +14,7 @@ jobs:
   create_json_file:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: create-floor-actions-json
         uses: jsdaniell/create-json@v1.2.1
         with:
