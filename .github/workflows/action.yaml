@@ -28,13 +28,12 @@ jobs:
           name: "floor-actions.json"
           json: '{"title": "my json"}'
       - name: Commit File
-        run: |
-          git config --global user.email "mettacode@gmail.com"
-          git config --global user.name "mettacode"
-          git add -A floor-actions.json && git status
-          git commit -am "Deployed floor-actions.json file"
-          git push
-
+        # run: |
+        #   git config --global user.email "mettacode@gmail.com"
+        #   git config --global user.name "mettacode"
+        #   git add -A floor-actions.json && git status
+        #   git commit -am "Deployed floor-actions.json file"
+        #   git push
 # runs:
 #   using: "node16"
 #   main: "index.js"
