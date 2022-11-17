@@ -4,7 +4,8 @@ description: "Retrieve latest floor actions from US Congress and create JSON fil
 
 on:
   push:
-    branches: [master]
+    branches:
+      - main
 # inputs:
 #   who-to-greet:  # id of input
 #     description: 'Who to greet'
@@ -19,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: create-floor-actions-json
-        uses: jsdaniell/create-json@v1.2.1
+      - uses: jsdaniell/create-json@v1.2.1
         with:
-          name: "floor-actions.json"
-          json: # TBD
+          name: 'floor-actions.json'
+          json: '{"title": "my json"}''
 runs:
   using: "node16"
   main: "index.js"
