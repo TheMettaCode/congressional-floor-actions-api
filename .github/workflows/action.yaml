@@ -20,23 +20,26 @@ jobs:
         with:
           name: "floor-actions.json"
           json: '{"title": "my json"}'
-
-  commit_json_file:
-    needs: create_json_file
-    runs-on: ubuntu-latest
-    steps:
       - name: commit-floor-actions-json
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Floor Action JSON Updated
-          repository: ./
-      # - name: Commit File
-      # run: |
-      #   git config --global user.email "mettacode@gmail.com"
-      #   git config --global user.name "mettacode"
-      #   git add -A floor-actions.json && git status
-      #   git commit -am "Deployed floor-actions.json file"
-      #   git push
+
+  # commit_json_file:
+  #   needs: create_json_file
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: commit-floor-actions-json
+  #       uses: stefanzweifel/git-auto-commit-action@v4
+  #       with:
+  #         commit_message: Floor Action JSON Updated
+  # - name: Commit File
+  # run: |
+  #   git config --global user.email "mettacode@gmail.com"
+  #   git config --global user.name "mettacode"
+  #   git add -A floor-actions.json && git status
+  #   git commit -am "Deployed floor-actions.json file"
+  #   git push
 # runs:
 #   using: "node16"
 #   main: "index.js"
