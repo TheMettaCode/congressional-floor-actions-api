@@ -28,7 +28,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Floor Action JSON Updated
-          repository: https://github.com/TheMettaCode/congressional-floor-actions-api.git
+          repository: ./
       # - name: Commit File
       # run: |
       #   git config --global user.email "mettacode@gmail.com"
