@@ -25,12 +25,12 @@ jobs:
     # needs: create_floor_action_json
     steps:
       - uses: actions/checkout@v2
-      - name: run-javascript
-        # uses: ./
-        # with:
-        #   token: ${{ secrets.GITHUB_TOKEN }}
       - run: node --version
-      - run: npm run start
+      - name: run-javascript
+        uses: ./
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run start
       - name: create-floor-actions-json
         uses: jsdaniell/create-json@v1.2.1
         with:
