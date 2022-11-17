@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  deploy:
+  create_json_file:
     runs-on: ubuntu-latest
     steps:
       - name: create-floor-actions-json
@@ -19,7 +19,12 @@ jobs:
         with:
           name: "floor-actions.json"
           json: '{"title": "my json"}'
-      - name: Save file to repo
+
+  commit_json_file:
+    needs: create_json_file
+    runs-on: ubuntu-latest
+    steps:
+      - name: commit-floor-actions-json
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Floor Action JSON Updated
