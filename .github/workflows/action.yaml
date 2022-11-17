@@ -27,9 +27,9 @@ jobs:
       - uses: actions/checkout@v2
       - run: node --version
       - name: run-javascript
-        uses: ./
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        # uses: ./
+        # with:
+        #   token: ${{ secrets.GITHUB_TOKEN }}
         run: npm run start
       - name: create-floor-actions-json
         uses: jsdaniell/create-json@v1.2.1
