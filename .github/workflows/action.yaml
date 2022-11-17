@@ -1,6 +1,6 @@
 name: "Congressional Floor Actions"
-author: "MettaCode Developers"
-description: "Retrieve latest floor actions from US Congress and create JSON file"
+# author: "MettaCode Developers"
+# description: "Retrieve latest floor actions from US Congress and create JSON file"
 
 on:
   push:
