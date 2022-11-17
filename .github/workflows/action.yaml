@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: node --version
-      - run: npm start
+      - run: start
   save_json_file:
     runs-on: ubuntu-latest
     needs: create_floor_action_json
