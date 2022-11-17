@@ -24,7 +24,7 @@ jobs:
         with:
           name: "floor-actions.json"
           json: '{"title": "my json"}'
-      - run: git config --global user.email "mettacode@gmail.com" && git config --global user.name "MettaCode" && git add floor-actions.json && git status && git commit -a -m "Deployed floor-actions.json file"
+      - run: git config --global user.email "mettacode@gmail.com" && git config --global user.name "MettaCode" && git add --force floor-actions.json && git status && git commit -a -m "Deployed floor-actions.json file"
 # runs:
 #   using: "node16"
 #   main: "index.js"
