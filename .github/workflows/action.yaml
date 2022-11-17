@@ -11,9 +11,9 @@ on:
 #     description: 'Who to greet'
 #     required: true
 #     default: 'World'
-outputs:
-  successfully:
-    description: "Feedback message of success"
+# outputs:
+#   successfully:
+#     description: "Feedback message of success"
 
 jobs:
   deploy:
@@ -24,6 +24,6 @@ jobs:
         with:
           name: "floor-actions.json"
           json: '{"title": "my json"}'
-runs:
-  using: "node16"
-  main: "index.js"
+# runs:
+#   using: "node16"
+#   main: "index.js"
