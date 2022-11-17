@@ -24,7 +24,7 @@ jobs:
         with:
           name: "floor-actions.json"
           json: '{"title": "my json"}'
-          dir: "src/"
+      - run: git add floor-actions.json && git status && git commit -a -m "Deployed floor-actions.json file"
 # runs:
 #   using: "node16"
 #   main: "index.js"
