@@ -45,7 +45,7 @@ axios.get(senateSource.address)
     senateFloorActionsMap["actions-count"] = senateActionsList.length;
     senateFloorActionsMap["actions-list"] = senateActionsList;
     // res.json(senateFloorActionsMap);
-    fs.writeFile("./floor_actions_senate.json", JSON.stringify(senateFloorActionsMap), (err) => {
+    fs.writeFile("floor_actions_senate.json", JSON.stringify(senateFloorActionsMap), (err) => {
       if (err) { console.log(err); }
     });
   });
@@ -102,7 +102,7 @@ axios.get(houseSource.address)
     houseFloorActionsMap["actions-count"] = houseActionsList.length;
     houseFloorActionsMap["actions-list"] = houseActionsList;
     // res.json(houseFloorActionsMap);
-    fs.writeFile("./floor_actions_house.json", JSON.stringify(houseFloorActionsMap), (err) => {
+    fs.writeFile("floor_actions_house.json", JSON.stringify(houseFloorActionsMap), (err) => {
       if (err) { console.log(err); }
     });
   });
