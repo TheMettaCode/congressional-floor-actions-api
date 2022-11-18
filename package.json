@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "monitor": "nodemon ./bin/www"
+    "monitor": "nodemon ./bin/www",
+    "data": "node collect-data"
   },
   "dependencies": {
     "@actions/core": "^1.10.0",

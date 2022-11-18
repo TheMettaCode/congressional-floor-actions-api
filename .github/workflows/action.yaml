@@ -11,31 +11,18 @@ permissions:
   contents: write
 
 jobs:
-  # create_floor_action_json:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: run-javascript
-  #       uses: ./
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #     - run: node --version
-  #     - run: npm run start
   save_json_file:
     runs-on: ubuntu-latest
-    # needs: create_floor_action_json
     steps:
       - uses: actions/checkout@v2
       - run: node --version
       - name: run-javascript
-        # uses: ./
-        # with:
-        #   token: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run start
-      - name: create-floor-actions-json
-        uses: jsdaniell/create-json@v1.2.1
-        with:
-          name: "floor-actions.json"
-          json: '{"title": "my json"}'
+        run: npm run data
+      # - name: create-floor-actions-json
+      #   uses: jsdaniell/create-json@v1.2.1
+      #   with:
+      #     name: "floor-actions.json"
+      #     json: '{"title": "my json"}'
       - name: commit-floor-actions-json
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
