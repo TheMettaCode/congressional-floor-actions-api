@@ -22,11 +22,6 @@ jobs:
       - run: node --version
       - name: run-javascript
         run: npm run data
-      # - name: create-floor-actions-json
-      #   uses: jsdaniell/create-json@v1.2.1
-      #   with:
-      #     name: "floor-actions.json"
-      #     json: '{"title": "my json"}'
       - name: commit-floor-actions-json
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
