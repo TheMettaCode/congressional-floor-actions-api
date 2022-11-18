@@ -9,7 +9,7 @@ on:
 
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron: "*/15 * * * 1-5"
+    - cron: "*/15 13-21 * * 1-5"
 
 permissions:
   contents: write
