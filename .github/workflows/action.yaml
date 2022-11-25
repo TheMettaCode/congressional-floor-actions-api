@@ -20,8 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: node --version
-      - run: npm install express
-      - run: npm install puppeteer
+      - run: npm install axios
+      - run: npm install cheerio
       - name: run-javascript
         run: npm run data
       - name: commit-floor-actions-json
