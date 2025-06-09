@@ -11,7 +11,7 @@
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1",
     "axios": "^0.27.2",
-    "cheerio": "^1.0.0",
+    "cheerio": "^1.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
